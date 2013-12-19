@@ -44,7 +44,7 @@ StopWords::StopWords(char fileName[])
 	}
 
 	//If the file is open it add all the stop word to the stopWords vector
-	while (inPut && stop)
+	while (inPut)
 	{
 		getline(inPut, stop);
 		_stopWords.push_back(stop);
