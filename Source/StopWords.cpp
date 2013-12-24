@@ -15,7 +15,7 @@
 
 using namespace std;
 
-StopWords::s_stopWords = NULL; 
+vector<string>* StopWords::s_stopWords = NULL; 
 
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 //                                                                              //
