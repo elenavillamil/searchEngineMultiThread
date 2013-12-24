@@ -11,10 +11,11 @@
 // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
 
 
-#include "StopWords.h"
+#include "StopWords.hpp"
 
 using namespace std;
 
+StopWords::s_stopWords = NULL; 
 
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 //                                                                              //
@@ -30,27 +31,34 @@ using namespace std;
 
 StopWords::StopWords(char fileName[])
 {
-	string stop = " ";
+	string stop;
 
-	//opening file containing stop words
-	ifstream inPut;
-	inPut.open(fileName);
-
-	//If the file isn't open the program displays and error and exists
-	if (!inPut.is_open())
+	if (s_stopWords == NULL)
 	{
-		cerr << "Impossible to open file " << fileName << endl;
-		exit(0);
-	}
+		//opening file containing stop words
+		ifstream inPut;
+		inPut.open(fileName);
 
-	//If the file is open it add all the stop word to the stopWords vector
-	while (inPut)
-	{
-		getline(inPut, stop);
-		_stopWords.push_back(stop);
-	}
+		//If the file isn't open the program displays and error and exists
+		if (!inPut.is_open())
+		{
+			cerr << "Impossible to open file " << fileName << endl;
+			exit(0);
+		}
 
-	inPut.close();
+		//If the file is open it add all the stop word to the stopWords vector
+		while (inPut)
+		{
+			getline(inPut, stop);
+
+			//
+			// Add stemming
+			//
+			s_stopWords->push_back(stop);
+		}
+
+		inPut.close();
+	}
 }
 
 
@@ -81,11 +89,11 @@ bool StopWords::isStop(string check, int start, int end)
 		middle = (start + end) / 2;
 
 		//If the name we are looking for is in the lower half of hte vector
-		if (_stopWords[middle] > check)
+		if (s_stopWords->at(middle) > check)
 			return isStop(check, start, middle - 1);
 
 		//If the name we are looking for is in the upper half of the vector
-		else if (_stopWords[middle] < check)
+		else if (s_stopWords->at(middle) < check)
 			return isStop(check, middle + 1, end);
 
 		//If the name we are looking for is in the middle position
@@ -110,7 +118,7 @@ bool StopWords::isStop(string check, int start, int end)
 
 void StopWords::addStopWord(string stop)
 {
-	_stopWords.push_back(stop);
+	s_stopWords->push_back(stop);
 }
 
 
@@ -128,5 +136,24 @@ void StopWords::addStopWord(string stop)
 
 int StopWords::getSize()
 {
-	return _stopWords.size();
+	return s_stopWords->size();
+}
+
+
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+//                                                                              //
+//  print:                                                                      //
+//     Prints out ot the screen the word in the s_stopWords vector              //
+//                                                                              //
+//  Parameters:                                                                 //
+//                                                                              //
+//  Return:                                                                     //
+//     void                                                                     //
+//                                                                              //
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+
+void StopWords::print()
+{
+	for (string &element : *s_stopWords)
+		cout << element << endl;
 }

@@ -24,13 +24,15 @@ using namespace std;
 class StopWords
 {
 private:
-	vector<string> _stopWords;
+	static vector<string>* s_stopWords;
 
 public:
 	StopWords(char[]);
 	void addStopWord(string);
 	bool isStop(string, int, int);
 	int getSize();
+	void print();
 };
 
 #endif 
+

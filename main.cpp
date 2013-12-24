@@ -1,5 +1,5 @@
 
-#include "StopWords.h"
+#include "StopWords.hpp"
 
 using namespace std;
 
@@ -7,7 +7,7 @@ int main()
 {
 	StopWords myStopWords = StopWords("StopWords.txt");
 
-	cout << "the size of the stop word list is: " << myStopWords.getSize() << endl;
+	myStopWords.print();
 
 	return 0;
 }
