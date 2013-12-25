@@ -30,7 +30,6 @@ public:
 	StopWords(char[]);
 	void addStopWord(string);
 	bool isStop(string, int, int);
-	static void setNull();
 	int getSize();
 	void print();
 };

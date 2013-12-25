@@ -35,6 +35,8 @@ StopWords::StopWords(char fileName[])
 
 	if (s_stopWords == NULL)
 	{
+		s_stopWords = new vector<string>();
+
 		//opening file containing stop words
 		ifstream inPut;
 		inPut.open(fileName);
