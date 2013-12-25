@@ -15,8 +15,10 @@
 
 using namespace std;
 
-StopWords::s_stopWords = NULL; 
-
+void StopWords::setNull()
+{
+	s_stopWords = NULL;
+}
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 //                                                                              //
 //  StopWords:                                                                  //
