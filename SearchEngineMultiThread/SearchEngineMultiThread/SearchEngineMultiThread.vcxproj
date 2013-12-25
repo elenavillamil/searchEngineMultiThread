@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\mvill_000\Source\Repos\searchEngineMultiThread\Include;$(IncludePath)</IncludePath>
-    <ReferencePath>C:\Users\mvill_000\Source\Repos\searchEngineMultiThread\Data;$(ReferencePath)</ReferencePath>
+    <IncludePath>C:\Users\Jarret\Source\Repos\searchEngineMultiThread\Include;$(IncludePath)</IncludePath>
+    <ReferencePath>C:\Users\Jarret\Source\Repos\searchEngineMultiThread\Include;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -15,10 +15,8 @@
 
 using namespace std;
 
-void StopWords::setNull()
-{
-	s_stopWords = NULL;
-}
+vector<string>* StopWords::s_stopWords = NULL; 
+
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 //                                                                              //
 //  StopWords:                                                                  //
