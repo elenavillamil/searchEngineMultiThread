@@ -1,13 +1,19 @@
 
-#include "StopWords.hpp"
+#include "PCStemming.hpp"
 
 using namespace std;
 
 int main()
 {
-	StopWords myStopWords = StopWords("StopWords.txt");
+	PCStemming stemmer = PCStemming();
 
-	myStopWords.print();
+	string sentence = "Elena_Villamil!!!";
+	
+	cout << sentence.length() << endl;
+
+	stemmer.lowercaseAndPunctuation(sentence);
+
+	cout << sentence << endl;
 
 	return 0;
 }

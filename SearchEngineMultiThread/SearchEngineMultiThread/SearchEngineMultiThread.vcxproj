@@ -67,10 +67,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Include\PCStemming.hpp" />
     <ClInclude Include="..\..\Include\StopWords.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\main.cpp" />
+    <ClCompile Include="..\..\Source\PCStemming.cpp" />
     <ClCompile Include="..\..\Source\StopWords.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

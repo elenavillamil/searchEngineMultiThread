@@ -21,9 +21,15 @@
     <ClCompile Include="..\..\Source\StopWords.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\PCStemming.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\StopWords.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\PCStemming.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,6 +10,7 @@
 //                                                                              //
 // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
 
+
 #ifndef STOPWORDS_H
 #define STOPWORDS_H
 
@@ -23,15 +24,15 @@ using namespace std;
 
 class StopWords
 {
-private:
-	static vector<string>* s_stopWords;
+	private:
+		static vector<string>* s_stopWords;
 
-public:
-	StopWords(char[]);
-	void addStopWord(string);
-	bool isStop(string, int, int);
-	int getSize();
-	void print();
+	public:
+		StopWords(char[]);
+		void addStopWord(string);
+		bool isStop(string, int, int);
+		int getSize();
+		void print();
 };
 
 #endif 
