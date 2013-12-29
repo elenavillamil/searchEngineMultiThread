@@ -20,6 +20,8 @@
 #include <iostream>
 #include <cstdlib>
 
+#include "PCStemming.hpp"
+
 using namespace std;
 
 class StopWords
@@ -28,7 +30,7 @@ class StopWords
 		static vector<string>* s_stopWords;
 
 	public:
-		StopWords(char[]);
+		StopWords(const char[]);
 		void addStopWord(string);
 		bool isStop(string, int, int);
 		int getSize();

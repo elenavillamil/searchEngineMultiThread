@@ -59,7 +59,6 @@ void PCStemming::lowercaseAndPunctuation(string& toChange)
 				toChange.erase(toChange.begin() + i);
 				i--;
 			}
-			cout << toChange.length() << endl;
 		}
 	}
 }

@@ -30,12 +30,14 @@ vector<string>* StopWords::s_stopWords = NULL;
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-StopWords::StopWords(char fileName[])
+StopWords::StopWords(const char fileName[])
 {
 	string stop;
 
 	if (s_stopWords == NULL)
 	{
+		PCStemming stem = PCStemming();
+
 		s_stopWords = new vector<string>();
 
 		//opening file containing stop words
@@ -54,9 +56,9 @@ StopWords::StopWords(char fileName[])
 		{
 			getline(inPut, stop);
 
-			//
-			// Add stemming
-			//
+			stem.lowercaseAndPunctuation(stop);
+			//stem.stemming(stop);
+
 			s_stopWords->push_back(stop);
 		}
 

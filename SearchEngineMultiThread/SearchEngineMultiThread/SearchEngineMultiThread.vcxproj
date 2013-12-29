@@ -67,13 +67,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Include\Document.hpp" />
     <ClInclude Include="..\..\Include\PCStemming.hpp" />
     <ClInclude Include="..\..\Include\StopWords.hpp" />
+    <ClInclude Include="..\..\Include\Word.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\main.cpp" />
+    <ClCompile Include="..\..\Source\Document.cpp" />
     <ClCompile Include="..\..\Source\PCStemming.cpp" />
     <ClCompile Include="..\..\Source\StopWords.cpp" />
+    <ClCompile Include="..\..\Source\Word.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
