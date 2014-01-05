@@ -11,8 +11,8 @@
 // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
 
 
-#ifndef STOPWORDS_H
-#define STOPWORDS_H
+#ifndef _STOPWORDS_HPP_
+#define _STOPWORDS_HPP_
 
 #include <string>
 #include <vector>
@@ -30,9 +30,9 @@ class StopWords
 		static vector<string>* s_stopWords;
 
 	public:
-		StopWords(const char[]);
-		void addStopWord(string);
-		bool isStop(string, int, int);
+		StopWords(const char*);
+		void addStopWord(string&);
+		bool isStop(string&, int, int);
 		int getSize();
 		void print();
 };

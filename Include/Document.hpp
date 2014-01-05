@@ -9,8 +9,8 @@
 // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
 
 
-#ifndef DOCUMENT_H
-#define DOCUMENT_H
+#ifndef _DOCUMENT_HPP_
+#define _DOCUMENT_HPP_
 
 #include <string>
 #include <fstream>
@@ -25,7 +25,7 @@ class Document
 		int _totalWords;
 		int _id;
 	public:
-		Document(string);
+		Document(string&);
 		void increaseTotalWords();
 		void displayDocument();
 		int getID();

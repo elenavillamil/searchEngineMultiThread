@@ -24,7 +24,7 @@ using namespace std;
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-Word::Word(string word)
+Word::Word(string& word)
 {
 	_name = word;
 	_totalFrequency = 0;
@@ -150,11 +150,11 @@ void Word::setBoolDocuments(bool set, vector<int>* keys)
 //  Parameters:                                                                 //
 //                                                                              //
 //  Return:                                                                     //
-//     vector<int>*                                                             //
+//     const vector<int>&                                                       //
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-vector<int> Word::getKeys()
+const vector<int>& Word::getKeys()
 {
 	return _keys;
 }

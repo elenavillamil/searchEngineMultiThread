@@ -9,10 +9,11 @@
 // EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
 
 
-#ifndef WORD_H
-#define WORD_H
+#ifndef _WORD_HPP_
+#define _WORD_HPP_
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 #include "Document.hpp"
 
@@ -34,14 +35,14 @@ class Word
 		vector<int> _keys;
 
 	public:
-		Word(string);
+		Word(string&);
 		void increaseCountsWord(int);
 		void addDocument(Document*);
 		string getName();
 		int getTotalFreq();
 		void setBoolDocuments(bool);
 		void setBoolDocuments(bool, vector<int>*);
-		vector<int> getKeys();
+		const vector<int>& getKeys();
 		~Word();
 };
 

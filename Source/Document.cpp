@@ -23,7 +23,7 @@ using namespace std;
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-Document::Document(string path)
+Document::Document(string& path)
 {
 	string temp = path;
 	int i = 0;
@@ -36,7 +36,7 @@ Document::Document(string path)
 
 	const string str = temp;
 	const char* match = "/";
-	i = str.length() - 1;
+	i = str.size() - 1;
 	int remove = 0;
 
 	while (i >= 0)
@@ -44,7 +44,7 @@ Document::Document(string path)
 		if ( str.at(i) == *match)
 			break;
 
-		i--;
+		--i;
 		remove = i;
 	}
 
@@ -84,8 +84,7 @@ void Document::displayDocument()
 	string stop;
 
 	//opening file containing stop words
-	ifstream inPut;
-	inPut.open(_filePath.c_str());
+	ifstream inPut(_filePath.c_str());
 
 	//If the file isn't open the program displays and error and exists
 	if (!inPut.is_open())
@@ -101,16 +100,16 @@ void Document::displayDocument()
 
 		getline(inPut, stop);
 
-		while (j < stop.length())
+		while (j < stop.size())
 		{
-			for (int i = 0; j < stop.length() && i < 90; j++, i++)
-			{
+			for (int i = 0; j < stop.size() && i < 90; ++j, ++i)
 				cout << stop[j];
-			}
-
+			
 			cout << endl;
 		}
 	}
+
+	//File atomatically closed
 }
 
 

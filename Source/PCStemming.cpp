@@ -47,17 +47,17 @@ PCStemming::PCStemming()
 
 void PCStemming::lowercaseAndPunctuation(string& toChange)
 {
-	for (int i = 0; i < toChange.length(); i++)
+	for (int i = 0; i < toChange.size(); ++i)
 	{
 		toChange[i] = tolower(toChange[i]);
 		if (ispunct(toChange[i]))
 		{
-			if (i + 1 < toChange.length() && !ispunct(toChange[i + 1]))
+			if (i + 1 < toChange.size() && !ispunct(toChange[i + 1]))
 				toChange[i] = ' ';
 			else
 			{
 				toChange.erase(toChange.begin() + i);
-				i--;
+				--i;
 			}
 		}
 	}
@@ -78,18 +78,19 @@ void PCStemming::lowercaseAndPunctuation(string& toChange)
 
 void PCStemming::stemming(string& toChange)
 {
-	char* cstring = new char[toChange.length() + 1];
+	char* cstring = new char[toChange.size() + 1];
 
 	#ifdef _WIN32
 
-	strcpy_s(cstring, sizeof(char) * toChange.length(), toChange.c_str());
+		strcpy_s(cstring, sizeof(char) * toChange.size(), toChange.c_str());
 	
 	#else
 	
-	strcpy(cstring, toChange.c_str());
+		strcpy(cstring, toChange.c_str());
 	
 	#endif
 	//cstring[stem(cstring, 0, strlen(cstring) - 1) + 1] = 0;
-	toChange = string(cstring);
-	delete[]cstring;
+	toChange = cstring;
+
+	delete[] cstring;
 }

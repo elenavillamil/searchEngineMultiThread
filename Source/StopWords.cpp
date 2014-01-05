@@ -30,19 +30,18 @@ vector<string>* StopWords::s_stopWords = NULL;
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-StopWords::StopWords(const char fileName[])
+StopWords::StopWords(const char* fileName)
 {
 	string stop;
 
 	if (s_stopWords == NULL)
 	{
-		PCStemming stem = PCStemming();
+		PCStemming stem;
 
 		s_stopWords = new vector<string>();
 
 		//opening file containing stop words
-		ifstream inPut;
-		inPut.open(fileName);
+		ifstream inPut(fileName);
 
 		//If the file isn't open the program displays and error and exists
 		if (!inPut.is_open())
@@ -62,7 +61,7 @@ StopWords::StopWords(const char fileName[])
 			s_stopWords->push_back(stop);
 		}
 
-		inPut.close();
+		//automatically closed 
 	}
 }
 
@@ -82,7 +81,7 @@ StopWords::StopWords(const char fileName[])
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-bool StopWords::isStop(string check, int start, int end)
+bool StopWords::isStop(string& check, int start, int end)
 {
 	int middle;
 
@@ -121,7 +120,7 @@ bool StopWords::isStop(string check, int start, int end)
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-void StopWords::addStopWord(string stop)
+void StopWords::addStopWord(string& stop)
 {
 	s_stopWords->push_back(stop);
 }
@@ -159,6 +158,6 @@ int StopWords::getSize()
 
 void StopWords::print()
 {
-	for (string &element : *s_stopWords)
+	for (string& element : *s_stopWords)
 		cout << element << endl;
 }

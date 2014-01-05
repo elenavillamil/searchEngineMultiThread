@@ -7,7 +7,8 @@ using namespace std;
 
 int main()
 {
-	Document* doc = new Document("113.txt");
+	string name = "113.txt";
+	Document* doc = new Document(name);
 
 	StopWords stop = { "StopWords.txt" };
 
