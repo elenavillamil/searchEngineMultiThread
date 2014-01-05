@@ -68,8 +68,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\Document.hpp" />
-    <ClInclude Include="..\..\Include\Index.h" />
     <ClInclude Include="..\..\Include\PCStemming.hpp" />
+    <ClInclude Include="..\..\Include\Stemmer.h" />
     <ClInclude Include="..\..\Include\StopWords.hpp" />
     <ClInclude Include="..\..\Include\Word.hpp" />
   </ItemGroup>

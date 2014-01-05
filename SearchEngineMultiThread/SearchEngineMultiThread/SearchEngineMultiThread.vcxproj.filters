@@ -44,7 +44,7 @@
     <ClInclude Include="..\..\Include\Word.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\Index.h">
+    <ClInclude Include="..\..\Include\Stemmer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

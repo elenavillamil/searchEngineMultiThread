@@ -15,7 +15,7 @@
 
 
 #include "PCStemming.hpp"
-//#include "Stemmer.h"
+#include "Stemmer.h"
 using namespace std;
 
 
@@ -89,7 +89,7 @@ void PCStemming::stemming(string& toChange)
 		strcpy(cstring, toChange.c_str());
 	
 	#endif
-	//cstring[stem(cstring, 0, strlen(cstring) - 1) + 1] = 0;
+	cstring[stem(cstring, 0, strlen(cstring) - 1) + 1] = 0;
 	toChange = cstring;
 
 	delete[] cstring;
