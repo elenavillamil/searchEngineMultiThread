@@ -38,6 +38,7 @@ class Word
 		Word(string&);
 		void increaseCountsWord(int);
 		void addDocument(Document*);
+		bool isTheDocInList(int);
 		string getName();
 		int getTotalFreq();
 		void setBoolDocuments(bool);

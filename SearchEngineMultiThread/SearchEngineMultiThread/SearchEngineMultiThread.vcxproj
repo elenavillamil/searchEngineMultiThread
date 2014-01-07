@@ -72,6 +72,7 @@
     <ClInclude Include="..\..\Include\Stemmer.h" />
     <ClInclude Include="..\..\Include\StopWords.hpp" />
     <ClInclude Include="..\..\Include\Word.hpp" />
+    <ClInclude Include="..\..\Include\WordProccess.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\main.cpp" />
@@ -79,6 +80,7 @@
     <ClCompile Include="..\..\Source\PCStemming.cpp" />
     <ClCompile Include="..\..\Source\StopWords.cpp" />
     <ClCompile Include="..\..\Source\Word.cpp" />
+    <ClCompile Include="..\..\Source\WordProccess.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

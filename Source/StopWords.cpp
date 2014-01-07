@@ -56,7 +56,7 @@ StopWords::StopWords(const char* fileName)
 			getline(inPut, stop);
 
 			stem.lowercaseAndPunctuation(stop);
-			//stem.stemming(stop);
+			stem.stemming(stop);
 
 			s_stopWords->push_back(stop);
 		}
