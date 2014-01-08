@@ -30,6 +30,7 @@ class Document
 		void displayDocument();
 		int getID();
 		int getTotalWords();
+		const char* getFilePath();
 };
 
 #endif

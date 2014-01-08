@@ -12,7 +12,7 @@
 
 
 #ifndef _PCSTEMMING_HPP_
-#define _PCSTEMMINH_HPP_
+#define _PCSTEMMING_HPP_
 
 #include <string>
 #include <cstring>

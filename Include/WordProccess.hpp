@@ -29,22 +29,21 @@ using namespace std;
 class WordProccess
 {
 private:
-	mutex _queueMutex;
-	mutex _wordsMutex;
+	//mutex& _queueMutex;
+	//mutex& _wordsMutex;
 	queue<pair<Document*, string>>* _toBeProccessed;
 	StopWords* _stopWordCheck;
 	PCStemming* _myPCStemmer;
 	unordered_map <string, Word*>* _sharedWords;
 	bool _stop;
-	void proccessWord(pair<Document*, string>&);
+	void proccessWord(mutex&, pair<Document*, string>&);
 	Word* createNewWord(pair<Document*, string>&);
 	void modifyExistingWord(pair<Document*, string>&);
 	
 public:
 	WordProccess(queue<pair<Document*, string>>*, unordered_map<string, Word*>*);
+	void startProccess(mutex&, mutex&);
 	void setStop(bool);
-	void startProccess();
-
 };
 
 #endif

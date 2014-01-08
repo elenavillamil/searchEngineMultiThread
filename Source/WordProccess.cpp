@@ -41,58 +41,32 @@ WordProccess::WordProccess(queue<pair<Document*, string>>* queueList, unordered_
 
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 //                                                                              //
-//  startProccess:                                                              //
-//     starts proccessing the words in the queue list until the list is empty   //
+//  proccessWord:                                                               //
+//     make sure every letter in the word is lower case, it sends it to stemming//
+//     and if it is not a stop word, check if the word already exits. If it does//
+//     call modifyExistingWord, and if it doesn't inserts a new word (it calls  //
+//     createNewWord to create the new word to be inserted                      //
 //                                                                              //
 //  Parameters:                                                                 //
-//     Word* myWord: word to be hashed                                          // 
-//                                                                              //
-//  Return:                                                                     //
-//     int: return an integer that will identify the word                       //
+//     pair<Document*, string>& myWord: passes by reference the pair with the   //
+//     document and the name of the word                                        //
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-void WordProccess::startProccess()
-{
-	pair<Document*, string> temp;
-
-	//while the queue is not empty or while the stop bool hashen't been set yet
-	while (!_stop || !_toBeProccessed->empty())
-	{
-		//pop just if the queue is not empty
-		if (!_toBeProccessed->empty())
-		{
-			//try to lock the queue lock until it looks
-			while (!_queueMutex.try_lock())
-			{
-			}
-
-			//get the first element in the queue and then pop it  
-			temp = _toBeProccessed->front();
-			_toBeProccessed->pop();
-			
-			//unlock the queue lock
-			_queueMutex.unlock();
-			
-			proccessWord(temp);
-		}
-	}
-}
-
-void WordProccess::proccessWord(pair<Document*, string>& myWord)
+void WordProccess::proccessWord(mutex& wordsM, pair<Document*, string>& myWord)
 {
 	//make sure the word is lower case, without punctuation and stemmed
 	_myPCStemmer->lowercaseAndPunctuation(myWord.second);
 	_myPCStemmer->stemming(myWord.second);
 
 	//if the word is not a stop word
-	if (!_stopWordCheck->isStop(myWord.second, 0, _stopWordCheck->getSize()))
+	if (!_stopWordCheck->isStop(myWord.second))
 	{
-		while (!_wordsMutex.try_lock())
+		while (!wordsM.try_lock())
 		{
 		}
 		//if the wordd already exists
-		if (_sharedWords->at(myWord.second))
+		if (_sharedWords->find(myWord.second) != _sharedWords->end())
 			modifyExistingWord(myWord);
 			
 		//if the word needs to be created
@@ -100,9 +74,23 @@ void WordProccess::proccessWord(pair<Document*, string>& myWord)
 			_sharedWords->insert({ myWord.second, createNewWord(myWord) });
 
 		//unlock the words lock
-		_wordsMutex.unlock();
+		wordsM.unlock();
 	}
 }
+
+
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+//                                                                              //
+//  createNewWord:                                                              //
+//     creates a new Word object wit the infomation passed in                   //
+//                                                                              //
+//  Parameters:                                                                 //
+//     pair<Document*, string>& temp: pointer to the document that holds the    //
+//     word, and the string with the name of the word                           //
+//                                                                              //
+//  Return:                                                                     //
+//     Word*: returns a pointer to the new word created on the heap             //
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
 Word* WordProccess::createNewWord(pair<Document*,string>& temp)
 {
@@ -111,13 +99,79 @@ Word* WordProccess::createNewWord(pair<Document*,string>& temp)
 	return myWord;
 }
 
+
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+//                                                                              //
+//  modifyExistingWord:                                                         //
+//     Increase the count of the times the word appears if the document is      //
+//     already in the word's document list and if not it add the doc ot the list//
+//                                                                              //
+//  Parameters:                                                                 // 
+//                                                                              //
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+
 void WordProccess::modifyExistingWord(pair<Document*, string>& temp)
 {
+	Word* tempWord = _sharedWords->at(temp.second);
 	//if doc is already in the list of documents for this word
-	if (_sharedWords->at(temp.second)->isTheDocInList(temp.first->getID()))
-		_sharedWords->at(temp.second)->increaseCountsWord(temp.first->getID());
+	if (tempWord->isTheDocInList(temp.first->getID()))
+		tempWord->increaseCountsWord(temp.first->getID());
 
 	//if not, add the document
 	else
-		_sharedWords->at(temp.second)->increaseCountsWord(temp.first->getID());
+		tempWord->increaseCountsWord(temp.first->getID());
 }
+
+
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+//                                                                              //
+//  startProccess:                                                              //
+//     starts proccessing the words in the queue list until the list is empty   //
+//                                                                              //
+//  Parameters:                                                                 // 
+//                                                                              //
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+
+void WordProccess::startProccess(mutex& queueM, mutex& wordsM)
+{
+	pair<Document*, string> temp;
+	
+	//while the queue is not empty or while the stop bool has not been set yet
+	while (!_stop || !_toBeProccessed->empty())
+	{
+		//pop just if the queue is not empty
+		if (!_toBeProccessed->empty())
+		{
+			//try to lock the queue lock until it looks
+			while (!queueM.try_lock())
+			{
+			}
+
+			//get the first element in the queue and then pop it  
+			temp = _toBeProccessed->front();
+			_toBeProccessed->pop();
+
+			//unlock the queue lock
+			queueM.unlock();
+
+			proccessWord(wordsM, temp);
+		}
+	}
+}
+
+
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+//                                                                              //
+//  setStop:                                                                    //
+//     sets the _stop member variable to the value passed in                    //
+//                                                                              //
+//  Parameters:                                                                 //
+//     bool set: boolean value we want to set the _stop member variable with    //
+//                                                                              //
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+
+void WordProccess::setStop(bool set)
+{
+	_stop = set;
+}
+

@@ -71,6 +71,31 @@ void Word::addDocument(Document* doc)
 
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 //                                                                              //
+//  isTheDocInList:                                                             //
+//     Check if a certain document is in the word list of docs                  //
+//                                                                              //
+//  Parameters:                                                                 //
+//     int key: integer with the key of the document we want to know if it is in//
+//     the list                                                                 //
+//                                                                              //
+//  Return:                                                                     //
+//     bool: true if the doc in the list, false if it isn't                     //
+//                                                                              //
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+
+bool Word::isTheDocInList(int key)
+{
+	for (pair<const int, WordInDoc>& temp : *_docsWithThisWord)
+	{
+		if (temp.second.doc->getID() == key)
+			return true;
+	}
+
+	return false;
+}
+
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+//                                                                              //
 //  getName:                                                                    //
 //     Return a copy of the string with the name of the word                    //
 //                                                                              //

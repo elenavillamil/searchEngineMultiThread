@@ -135,9 +135,30 @@ int Document::getTotalWords()
 //                                                                              //
 //  Parameters:                                                                 //
 //                                                                              //
+//  Return:                                                                     //
+//     Integer with the id/key of the document                                  //
+//                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
 int Document::getID()
 {
 	return _id;
+}
+
+
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+//                                                                              //
+//  getFilePath:                                                                //
+//     Return the path to open the document file cument                         //
+//                                                                              //
+//  Parameters:                                                                 //
+//                                                                              //
+//  Return:                                                                     //
+//     Returns a constant char array with the path to the document              //
+//                                                                              //
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+
+const char* Document::getFilePath()
+{
+	return _filePath.c_str();
 }

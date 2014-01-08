@@ -28,11 +28,12 @@ class StopWords
 {
 	private:
 		static vector<string>* s_stopWords;
+		bool recursiveIsStop(string&, int, int);
 
 	public:
 		StopWords(const char*);
+		bool isStop(string&);
 		void addStopWord(string&);
-		bool isStop(string&, int, int);
 		int getSize();
 		void print();
 };

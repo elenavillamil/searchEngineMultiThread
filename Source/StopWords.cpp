@@ -81,7 +81,7 @@ StopWords::StopWords(const char* fileName)
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-bool StopWords::isStop(string& check, int start, int end)
+bool StopWords::recursiveIsStop(string& check, int start, int end)
 {
 	int middle;
 
@@ -94,11 +94,11 @@ bool StopWords::isStop(string& check, int start, int end)
 
 		//If the name we are looking for is in the lower half of hte vector
 		if (s_stopWords->at(middle) > check)
-			return isStop(check, start, middle - 1);
+			return recursiveIsStop(check, start, middle - 1);
 
 		//If the name we are looking for is in the upper half of the vector
 		else if (s_stopWords->at(middle) < check)
-			return isStop(check, middle + 1, end);
+			return recursiveIsStop(check, middle + 1, end);
 
 		//If the name we are looking for is in the middle position
 		else
@@ -106,6 +106,27 @@ bool StopWords::isStop(string& check, int start, int end)
 	}
 }
 
+bool StopWords::isStop(string& temp)
+{
+	bool is1;
+	bool is2;
+
+	is1 = recursiveIsStop(temp, 0, s_stopWords->size());
+
+	if (temp.find("http") != string::npos)
+		is2 = true;
+	else
+		is2 = false;
+
+	for (int i = 0; i < temp.size(); ++i)
+	{
+		if (temp[i] == '@')
+			is2 = true;
+	}
+
+	return is1 || is2;
+
+}
 
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 //                                                                              //

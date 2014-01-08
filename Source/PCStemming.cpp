@@ -51,9 +51,10 @@ void PCStemming::lowercaseAndPunctuation(string& toChange)
 	for (int i = 0; i < toChange.size(); ++i)
 	{
 		toChange[i] = tolower(toChange[i]);
+
 		if (ispunct(toChange[i]))
 		{
-			if (i + 1 < toChange.size() && !ispunct(toChange[i + 1]))
+			if (i + 1 < toChange.size() && !ispunct(toChange[i + 1]) && i != 0)
 				toChange[i] = ' ';
 			else
 			{
@@ -83,7 +84,7 @@ void PCStemming::stemming(string& toChange)
 
 	#ifdef _WIN32
 
-		strcpy_s(cstring, sizeof(char) * toChange.size(), toChange.c_str());
+		strcpy_s(cstring, sizeof(char) * (toChange.size() + 1), toChange.c_str());
 	
 	#else
 	
