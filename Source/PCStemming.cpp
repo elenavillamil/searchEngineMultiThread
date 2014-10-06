@@ -1,17 +1,17 @@
-// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
-//                                                                              //
-//  Class name: PCStemming                                                      //
-//  File type: implementation                                                   //
-//  Version: 2.0.12.25.2013                                                     //
-//                                                                              //
-//  Description: the PCStemming class contains functions to make sure every     //
-//  letter is lower case, to remove punctuation and leave every word of the same//
-//  family to the same word                                                     //
-//                                                                              //
-//  Note: it uses Stemmer.h which implement Porter Algorithm, for more          //
-//  information: http://www.tartarus.org/~martin/PorterStemmer                  //
-//                                                                              //
-// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
+// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
+//                                                                           //
+//  Class name: PCStemming                                                   //
+//  File type: implementation                                                //
+//  Version: 2.0.12.25.2013                                                  //
+//                                                                           //
+//  Description: the PCStemming class contains functions to make sure every  //
+//  letter is lower case, to remove punctuation and leave every word of the  //
+//  same family to the same word                                             //
+//                                                                           //
+//  Note: it uses Stemmer.h which implement Porter Algorithm, for more       //
+//  information: http://www.tartarus.org/~martin/PorterStemmer               //
+//                                                                           //
+// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
 
 
 #include "PCStemming.hpp"
@@ -20,45 +20,21 @@
 using namespace std;
 
 
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-//                                                                              //
-//  PCStemming:                                                                 //
-//     Empty constructor for the Stemming class.                                //
-//                                                                              //
-//  Parameters:                                                                 //
-//                                                                              //
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+// Public member functions.
 
-PCStemming::PCStemming()
+void PCStemming::lowercase_And_Punctuation(string& to_change)
 {
-}
-
-
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-//                                                                              //
-//  lowercaseAndPunctuation                                                     //
-//     This function change every upper case character for a lowercase one and  //
-//     it also removes punctuation                                              //
-//                                                                              //
-//  Parameters:                                                                 //
-//     string& toChange: string to be changed. It is passed by reference, so    //
-//     every change made to it, it get done to the real string                  //
-//                                                                              //
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-
-void PCStemming::lowercaseAndPunctuation(string& toChange)
-{
-	for (int i = 0; i < toChange.size(); ++i)
+	for (int i = 0; i < to_change.size(); ++i)
 	{
-		toChange[i] = tolower(toChange[i]);
+		to_change[i] = tolower(to_change[i]);
 
-		if (ispunct(toChange[i]))
+		if (ispunct(to_change[i]))
 		{
-			if (i + 1 < toChange.size() && !ispunct(toChange[i + 1]) && i != 0)
-				toChange[i] = ' ';
+			if (i + 1 < to_change.size() && !ispunct(to_change[i + 1]) && i != 0)
+				to_change[i] = ' ';
 			else
 			{
-				toChange.erase(toChange.begin() + i);
+				to_change.erase(to_change.begin() + i);
 				--i;
 			}
 		}
@@ -66,33 +42,22 @@ void PCStemming::lowercaseAndPunctuation(string& toChange)
 }
 
 
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-//                                                                              //
-//  stemming:                                                                   //
-//     This function corverts the string passed in to the same string foe every //
-//     word of the same family                                                  //
-//                                                                              //
-//  Parameters:                                                                 //
-//     string& toChange: string to be stemmed. It is passed by reference, so    //
-//     every change made to it, it gets done to the real string                  //
-//                                                                              //
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-
-void PCStemming::stemming(string& toChange)
+void PCStemming::stemming(string& to_change)
 {
-	char* cstring = new char[toChange.size() + 1];
+	char* cstring = new char[to_change.size() + 1];
 
 	#ifdef _WIN32
 
-		strcpy_s(cstring, sizeof(char) * (toChange.size() + 1), toChange.c_str());
+		strcpy_s(cstring, sizeof(char) * (to_change.size() + 1), to_change.c_str());
 	
 	#else
 	
-		strcpy(cstring, toChange.c_str());
+		strcpy(cstring, to_change.c_str());
 	
 	#endif
+		
 	cstring[stem(cstring, 0, strlen(cstring) - 1) + 1] = 0;
-	toChange = cstring;
+	to_change = cstring;
 
 	delete[] cstring;
 }

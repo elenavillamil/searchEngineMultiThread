@@ -29,7 +29,8 @@ using namespace std;
 //                                                                              //
 // eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
 
-WordProccess::WordProccess(queue<pair<Document*, string>>* queueList, unordered_map<string, Word*>* sharedW)
+WordProccess::WordProccess(queue<pair<Document*, string>>* queueList,
+	unordered_map<string, Word*>* sharedW)
 {
 	_toBeProccessed = queueList;
 	_sharedWords = sharedW;

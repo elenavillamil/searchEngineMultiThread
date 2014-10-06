@@ -1,14 +1,14 @@
-// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
-//                                                                              //
-//  Class name: Stopwords                                                       //
-//  File type: implementation                                                   //
-//  Version: 2.0.12.19.2013                                                     //
-//                                                                              //
-//  Description: the StopWords class contains all the words the program will    //
-//  ignore when parsing documents. It also provides functionallyty to check if  //
-//  is a stop word or not                                                       //
-//                                                                              //
-// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
+// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
+//                                                                           //
+//  Class name: Stopwords                                                    //
+//  File type: implementation                                                //
+//  Version: 2.0.12.19.2013                                                  //
+//                                                                           //
+//  Description: the StopWords class contains all the words the program will //
+//  ignore when parsing documents. It also provides functionallyty to check  //
+//  if is a stop word or not                                                 //
+//                                                                           //
+// EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE //
 
 
 #include "StopWords.hpp"
@@ -18,167 +18,113 @@ using namespace std;
 vector<string>* StopWords::s_stopWords = NULL; 
 
 
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-//                                                                              //
-//  StopWords:                                                                  //
-//     Constructor for the StopWords class. It reads all the stop words from the//
-//     file into the vector                                                     //
-//                                                                              //
-//  Parameters:                                                                 //
-//     char fileName[]: char array that contains the name of the file with the  //
-//     stop words                                                               //
-//                                                                              //
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+// Constructor
 
-StopWords::StopWords(const char* fileName)
+StopWords::StopWords(const char* file_name)
 {
-	string stop;
+   string stop;
 
-	if (s_stopWords == NULL)
-	{
-		PCStemming stem;
+   if (s_stopWords == NULL)
+   {
+      PCStemming stem;
 
-		s_stopWords = new vector<string>();
+      s_stopWords = new vector<string>();
 
-		//opening file containing stop words
-		ifstream inPut(fileName);
+      //opening file containing stop words
+      ifstream inPut(file_name);
 
-		//If the file isn't open the program displays and error and exists
-		if (!inPut.is_open())
-		{
-			cerr << "Impossible to open file " << fileName << endl;
-			exit(0);
-		}
+      //If the file isn't open the program displays and error and exists
+      if (!inPut.is_open())
+      {
+         cerr << "Impossible to open file " << file_name << endl;
+         exit(0);
+      }
 
-		//If the file is open it add all the stop word to the stopWords vector
-		while (inPut)
-		{
-			getline(inPut, stop);
+      //If the file is open it add all the stop word to the stopWords vector
+      while (inPut)
+      {
+         getline(inPut, stop);
 
-			stem.lowercaseAndPunctuation(stop);
-			stem.stemming(stop);
+         stem.lowercaseAndPunctuation(stop);
+         stem.stemming(stop);
 
-			s_stopWords->push_back(stop);
-		}
+         s_stopWords->push_back(stop);
+      }
 
-		//automatically closed 
-	}
+      //automatically closed 
+   }
 }
 
 
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-//                                                                              //
-//  isStop:                                                                     //
-//     Recursive binary search until it finds the word or the word isn't there  //
-//                                                                              //
-//  Parameters:                                                                 //
-//     string check: string with the stop word to check if it is in the vector  //
-//     int star: smaller position on the vector to start looking                //
-//     int end: highest position in the vecotr to look                          //
-//                                                                              //
-//  Return:                                                                     //
-//     Boolean: true if the word is in the vector, and false otherwise          //
-//                                                                              //
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+// Public member function.
 
-bool StopWords::recursiveIsStop(string& check, int start, int end)
+void StopWords::add_Stop_Word(string& stop)
 {
-	int middle;
-
-	if (end < start)
-		return false;
-
-	else
-	{
-		middle = (start + end) / 2;
-
-		//If the name we are looking for is in the lower half of hte vector
-		if (s_stopWords->at(middle) > check)
-			return recursiveIsStop(check, start, middle - 1);
-
-		//If the name we are looking for is in the upper half of the vector
-		else if (s_stopWords->at(middle) < check)
-			return recursiveIsStop(check, middle + 1, end);
-
-		//If the name we are looking for is in the middle position
-		else
-			return true;
-	}
-}
-
-bool StopWords::isStop(string& temp)
-{
-	bool is1;
-	bool is2;
-
-	is1 = recursiveIsStop(temp, 0, s_stopWords->size());
-
-	if (temp.find("http") != string::npos)
-		is2 = true;
-	else
-		is2 = false;
-
-	for (int i = 0; i < temp.size(); ++i)
-	{
-		if (temp[i] == '@')
-			is2 = true;
-	}
-
-	return is1 || is2;
-
-}
-
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-//                                                                              //
-//  addStopWord:                                                                //
-//     adds a stop word to the end of the vector                                //
-//                                                                              //
-//  Parameters:                                                                 //
-//     string stop: string with the stop word to be added to the vector         //
-//                                                                              //
-//  Return:                                                                     //
-//     void                                                                     //
-//                                                                              //
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-
-void StopWords::addStopWord(string& stop)
-{
-	s_stopWords->push_back(stop);
+   s_stopWords->push_back(stop);
 }
 
 
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-//                                                                              //
-//  getSize:                                                                    //
-//     Gets the size of the vector, the number of stop words                    //
-//                                                                              //
-//  Parameters:                                                                 //
-//                                                                              //
-//  Return:                                                                     //
-//     int: the size of the stopWords vector                                    //
-//                                                                              //
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-
-int StopWords::getSize()
+int StopWords::get_Size()
 {
-	return s_stopWords->size();
+   return s_stopWords->size();
 }
 
 
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
-//                                                                              //
-//  print:                                                                      //
-//     Prints out ot the screen the word in the s_stopWords vector              //
-//                                                                              //
-//  Parameters:                                                                 //
-//                                                                              //
-//  Return:                                                                     //
-//     void                                                                     //
-//                                                                              //
-// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee //
+bool StopWords::is_Stop(const string& check)
+{
+   bool is1;
+   bool is2;
+
+   // Check if it is a stop word.
+   is1 = recursiveIsStop(check, 0, s_stopWords->size());
+
+   // Check if it is a url.
+   if (check.find("http") != string::npos)
+      is2 = true;
+   else
+      is2 = false;
+
+   // Check if it is an email.
+   for (int i = 0; i < check.size(); ++i)
+   {
+      if (check[i] == '@')
+         is2 = true;
+   }
+
+   return is1 || is2;
+}
+
 
 void StopWords::print()
 {
-	for (string& element : *s_stopWords)
-		cout << element << endl;
+   for (string& element : *s_stopWords)
+      cout << element << endl;
+}
+
+
+// Private member functions.
+
+bool StopWords::recursive_Is_Stop(const string& check, int start, int end)
+{
+   int middle;
+
+   if (end < start)
+      return false;
+
+   else
+   {
+      middle = (start + end) / 2;
+
+      //If the name we are looking for is in the lower half of hte vector
+      if (s_stopWords->at(middle) > check)
+         return recursiveIsStop(check, start, middle - 1);
+
+      //If the name we are looking for is in the upper half of the vector
+      else if (s_stopWords->at(middle) < check)
+         return recursiveIsStop(check, middle + 1, end);
+
+      //If the name we are looking for is in the middle position
+      else
+         return true;
+   }
 }
